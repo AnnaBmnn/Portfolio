@@ -1,0 +1,47 @@
+.infos {
+    width: 50vw;
+    padding-right: 4rem;
+    padding-bottom: 6rem;
+    @include medium {
+        padding-right: 0rem;
+        padding-bottom: 0rem;      
+    }
+    @include small {
+        width: 70vw;
+    }
+}
+.infos__title {
+    margin-bottom: 1.8rem;
+    font-family: 'EksellDisplay', serif;
+    font-size: 4rem;
+    @include small {
+        font-size: 3rem;
+    }
+}
+
+.infos__description {
+    margin-bottom: 1.8rem;    
+    max-width: 75%;
+    font-family: 'Okomito', sans-serif;
+    font-size: 2rem;
+    font-weight: lighter;
+    @include medium {
+        max-width: 100%;
+        font-size: 1.7rem;
+    }
+    @include small {
+        font-size: 1.2rem;
+    }
+}
+
+.infos__works {
+    font-family: 'EksellDisplay';
+    font-weight: bold;
+    font-size: 1rem;
+    @include medium {
+        font-size: 1rem;
+    }
+    @include small {
+        font-size: 0.80rem;
+    }
+}
