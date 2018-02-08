@@ -16,6 +16,7 @@
     "google-closure-compiler-js": "^20170124.0.0",
     "gulp": "^3.9.1",
     "gulp-babel": "^7.0.0",
+    "gulp-browserify": "^0.5.1",
     "gulp-concat": "^2.6.1",
     "gulp-imagemin": "^3.4.0",
     "gulp-jshint": "^2.0.4",

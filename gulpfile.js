@@ -1,6 +1,7 @@
 var gulp          = require('gulp'),
     browserSync   = require('browser-sync'),
     sass          = require('gulp-sass'),
+    browserify = require('gulp-browserify'),
     concat        = require('gulp-concat'),
     uglify        = require('gulp-uglify'),
     uglifyCss     = require('gulp-uglifycss'),
@@ -43,6 +44,10 @@ gulp.task('sass', function() {
 gulp.task('js', function() {
   return gulp.src('src/js/main.js')
           .pipe(babel({ presets: ['es2015'] }))
+          .pipe(browserify({
+            insertGlobals : true,
+            debug : !gulp.env.production
+          }))
           .pipe(gulp.dest('dist/js'))
           .pipe(browserSync.stream());
 });
