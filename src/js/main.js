@@ -1,151 +1,112 @@
-// import * as THREE from 'three';
+var THREE = require('three');
 
-// //const scene = new THREE.Scene();
+// Get container in html
+const containerRenderer = document.querySelector('.three__container')
 
-// var container;
-// var camera, scene, renderer;
-// var sphere;
-// var controls;
-// console.log('hey')
-// window.addEventListener( 'load', function() {
-//     init();
-//     animate();
-// });
+// Scene
+const scene = new THREE.Scene()
 
-// function init() {
+let windowWidth = window.innerWidth
+let windowHeight = window.innerHeight
 
-//     container = document.createElement( 'div' );
-//     document.body.appendChild( container );
+// Camera
+const camera = new THREE.PerspectiveCamera(75, windowWidth / windowHeight)
+camera.position.z = 300
+scene.add(camera)
 
-//     camera = new THREE.PerspectiveCamera( 70, window.innerWidth / window.innerHeight, 1, 10000 );
-//     camera.rotation.x = Math.PI;
-//     camera.position.set( 0, 0, 50 );
+// Texture
+let texture = new THREE.Texture( generateTexture() );
+texture.needsUpdate = true; // important!
 
-//     scene = new THREE.Scene();
+//material
+let materialGradient = new THREE.MeshBasicMaterial( { map: texture, transparent: true } );
 
-//     renderer = new THREE.WebGLRenderer();
-//     renderer.setClearColor( 0xf0f0f0 );
-//     renderer.setPixelRatio( window.devicePixelRatio );
-//     renderer.setSize( window.innerWidth, window.innerHeight );
-//     container.appendChild(renderer.domElement);
 
-//     controls = new THREE.OrbitControls( camera, renderer.domElement );
-//     controls.enableZoom = true;
+// Object
+const geometry = new THREE.SphereGeometry( 50, 32, 32 );
+const material = new THREE.MeshBasicMaterial({ color: 0xff0000 })
+const mesh = new THREE.Mesh( geometry, materialGradient )
+scene.add( mesh )
 
-//     var material2 = new THREE.MeshBasicMaterial({
-//         color: 0x000000,
-//         opacity: 0.9,
-//         transparent: true 
-//     });			
+// Renderer
+const renderer = new THREE.WebGLRenderer()
+renderer.setClearColor( 0xffffff )
+renderer.setSize(windowWidth, windowHeight)
+containerRenderer.appendChild(renderer.domElement)
+renderer.render(scene, camera)
 
-//     // material texture
-//     var texture = new THREE.Texture( generateTexture() );
-//     texture.needsUpdate = true; // important!
+// Animate
+animate()
 
-//     // material
-//     var material_gradient = new THREE.MeshBasicMaterial( { map: texture, transparent: true } );
+function animate(){
+    rotateSphere();
+    moveSphere();
 
-//     var material = new THREE.MeshPhongMaterial({
-//         color: 0xdcfded
-//     });
-
-//     // var loader = new THREE.FontLoader();
-//     // var font = loader.load(
-//     // 	// resource URL
-//     // 	'fonts/Larish_Neue_Regular.json',
+    renderer.render(scene, camera)
+    window.requestAnimationFrame(animate)
     
-//     // 	// onLoad callback
-//     // 	function ( font ) {
-//     // 		// do something with the font
-//     // 		textGeo = new THREE.TextGeometry( '23', {
-//     // 			font: font,
-//     // 			size: 50,
-//     // 			height: 0,
-//     // 			curveSegments: 12,
-//     // 			bevelEnabled: true,
-//     // 			bevelThickness: 10,
-//     // 			bevelSize: 1,
-//     // 			bevelSegments: 5,
-//     // 			material: material2,
-//     // 			extrudeMaterial: 1
-//     // 		});
-//     // 		textGeo.computeBoundingBox();
-//     // 		textGeo.computeVertexNormals();
-//     // 		textMesh1 = new THREE.Mesh( textGeo, material2 );
+}
 
-//     // 		scene.add( textMesh1 );
-//     // 	},
+
+//function on Sphere
+function rotateSphere(){
+    // Rotate Sphere
+    mesh.rotation.y += 0.025
+    mesh.rotation.z += 0.05
+}
+
+var temps = 0
+var rayonX = 200
+var rayonY = 50
+var rayonZ = 250
+
+function moveSphere(){
+    temps += 0.01
+    mesh.position.x = Math.cos(temps)*rayonX
+    mesh.position.y = Math.sin(temps)*rayonY + Math.sin(temps)*rayonY    
+    mesh.position.z = Math.sin(temps)*rayonZ
     
-//     // 	// onProgress callback
-//     // 	function ( xhr ) {
-//     // 		console.log( (xhr.loaded / xhr.total * 100) + '% loaded' );
-//     // 	},
-    
-//     // 	// onError callback
-//     // 	function ( err ) {
-//     // 		console.log( 'An error happened' );
-//     // 	}
-//     // );
+}
 
-//     var sphere = new THREE.SphereGeometry(50, 20, 20)
-//     var trueSphere = new THREE.Mesh(sphere, material_gradient)
-//     // trueSphere.position.x = 100
-//     // trueSphere.position.z = -100
-//     scene.add( trueSphere )
-//     console.log(trueSphere)
 
-//     window.addEventListener( 'resize', onWindowResize, false );
-//     onWindowResize();
 
-// }
+// On resize
+window.addEventListener( 'resize', onWindowResize, false );
+onWindowResize();
 
-// function onWindowResize() {
+function onWindowResize() {
 
-//     camera.aspect = window.innerWidth / window.innerHeight;
-//     camera.updateProjectionMatrix();
+    camera.aspect = window.innerWidth / window.innerHeight;
+    camera.updateProjectionMatrix();
 
-//     renderer.setSize( window.innerWidth, window.innerHeight );
+    renderer.setSize( window.innerWidth, window.innerHeight );
+    renderer.render( scene, camera );
 
-// }
-// function generateTexture() {
+}
 
-//     var size = 512;
+function generateTexture() {
 
-//     // create canvas
-//     canvas = document.createElement( 'canvas' );
-//     canvas.width = 50;
-//     canvas.height = 50;
+    var size = 512
 
-//     // get context
-//     var context = canvas.getContext( '2d' );
+    // create canvas
+    let canvas = document.createElement( 'canvas' )
+    canvas.width = 50
+    canvas.height = 50
 
-//     // draw gradient
-//     context.rect( 0, 0, 50, 50 );
-//     var gradient = context.createLinearGradient(0,0,100,100);
+    // get context
+    var context = canvas.getContext( '2d' )
 
-//     gradient.addColorStop(0, 'rgba(255,0,255,0.2)');
-//     gradient.addColorStop(0.5, 'rgba(0,255,255,0.2)');
-//     gradient.addColorStop(1, 'rgba(255,0,255,0.2)');
+    // draw gradient
+    context.rect( 0, 0, 50, 50 )
+    var gradient = context.createLinearGradient(0,0,50,50)
 
-//     context.fillStyle = gradient;
-//     context.fill();
+    gradient.addColorStop(0, 'rgba(255,0,255,0.2)')
+    gradient.addColorStop(0.5, 'rgba(0,255,255,0.2)')
+    gradient.addColorStop(1, 'rgba(255,0,255,0.2)')
 
-//     return canvas;
+    context.fillStyle = gradient
+    context.fill()
 
-// }
+    return canvas
 
-// function animate() {
-
-//     requestAnimationFrame( animate );
-
-//     controls.update();
-//     render();
-
-// }
-
-// function render() {
-
-//     if( sphere ) sphere.position.copy( camera.position );
-//     renderer.render( scene, camera );
-
-// }
+}
