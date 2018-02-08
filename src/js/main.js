@@ -63,7 +63,7 @@ var rayonZ = 250
 function moveSphere(){
     temps += 0.01
     mesh.position.x = Math.cos(temps)*rayonX
-    mesh.position.y = Math.sin(temps)*rayonY + Math.sin(temps)*rayonY    
+    mesh.position.y = Math.sin(temps)*rayonY + Math.sing(temps)*rayonY    
     mesh.position.z = Math.sin(temps)*rayonZ
     
 }
