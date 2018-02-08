@@ -57,13 +57,13 @@ function rotateSphere(){
 
 var temps = 0
 var rayonX = 200
-var rayonY = 50
+var rayonY = 10
 var rayonZ = 250
 
 function moveSphere(){
     temps += 0.01
     mesh.position.x = Math.cos(temps)*rayonX
-    mesh.position.y = Math.sin(temps)*rayonY + Math.sing(temps)*rayonY    
+    mesh.position.y = Math.sin(temps)*rayonY     
     mesh.position.z = Math.sin(temps)*rayonZ
     
 }
@@ -83,6 +83,7 @@ function onWindowResize() {
     renderer.render( scene, camera );
 
 }
+
 
 function generateTexture() {
 
