@@ -87,27 +87,27 @@ function onWindowResize() {
 
 function generateTexture() {
 
-    var size = 512
+    var size = 50
 
     // create canvas
     let canvas = document.createElement( 'canvas' )
-    canvas.width = 50
-    canvas.height = 50
+    canvas.width = size
+    canvas.height = size
 
     // get context
     var context = canvas.getContext( '2d' )
 
     // draw gradient
-    context.rect( 0, 0, 50, 50 )
-    var gradient = context.createLinearGradient(0,0,50,50)
+    context.rect( 0, 0, size, size )
+    var gradient = context.createRadialGradient( size/2, size/2,4,size/2, size/2, 20)
 
-    gradient.addColorStop(0, 'rgba(255,0,255,0.2)')
-    gradient.addColorStop(0.5, 'rgba(0,255,255,0.2)')
-    gradient.addColorStop(1, 'rgba(255,0,255,0.2)')
+    gradient.addColorStop(0, 'rgba(0, 255,255,0.12)')
+    gradient.addColorStop(1, 'rgba(255,0,255,0.10)')
+    
 
     context.fillStyle = gradient
     context.fill()
-
+    context.rotate(180)
     return canvas
 
 }
